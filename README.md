@@ -1,4 +1,4 @@
-# LP2
+# Linguagem de Programação II
 ### Repositório com trabalhos e códigos da disciplina Linguagem de Programação II
 
 O principal objetivo do curso é o estudo da ***Orientação a Objetos***, por meio da linguagem ***Java***.
