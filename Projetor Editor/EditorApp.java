@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import figures.*;
@@ -14,8 +15,9 @@ class EditorApp {
 }
 
 class EditorFrame extends JFrame {
-    ArrayList<Figure> figs = new ArrayList<Figure>();
-    Random rand = new Random();
+    private ArrayList<Figure> figs = new ArrayList<Figure>();
+    private Random rand = new Random();
+    private Figure focus = null;
 
     EditorFrame () {
         this.addWindowListener (
@@ -29,32 +31,68 @@ class EditorFrame extends JFrame {
         this.addKeyListener (
                 new KeyAdapter(){
                     public void keyPressed (KeyEvent evt){
-                        if (evt.getKeyChar() == 'e') {
-                            int x = rand.nextInt(350);
-                            int y = rand.nextInt(350);
-                            int w = rand.nextInt(50);
-                            int h = rand.nextInt(50);
-                            Ellipse e = new Ellipse(x, y, w, h, Color.black, Color.white);
-                            figs.add(e);
+                        if(getMousePosition() != null) {
+                            int x = getMousePosition().x;
+                            int y = getMousePosition().y;
+                            int w = rand.nextInt(20,100);
+                            int h = rand.nextInt(20,100);
+                            if (evt.getKeyChar() == 'e') {
+                                Ellipse e = new Ellipse(x, y, w, h, Color.black, Color.white);
+                                figs.add(e);
+                                focus = e;
+                            }
+                            else if(evt.getKeyChar() == 'r') {
+                                Rect R = new Rect(x, y, w, h, Color.blue, Color.white);
+                                figs.add(R);
+                                focus = R;
+                            }
+                            else if(evt.getKeyChar() == 'l') {
+                                Line l = new Line(x, y, w, h, Color.red);
+                                figs.add(l);
+                                focus = l;
+                            }
+                            else if(evt.getKeyChar() == 't') {
+                                Triangle t = new Triangle(x, y, w, h, Color.black, Color.blue);
+                                figs.add(t);
+                                focus = t;
+                            }
+                            else if(evt.getKeyCode() == KeyEvent.VK_DELETE) {
+                                for(Iterator<Figure> iterator = figs.iterator(); iterator.hasNext();) {
+                                    Figure figure = iterator.next();
+                                    if(figure == focus) {
+                                        iterator.remove();
+                                        focus = null;
+                                    }
+                                }
+                            }
+                            else if(evt.getKeyCode() == KeyEvent.VK_UP) {
+                                if(focus != null && focus.getY() > 0)
+                                    focus.drag(0, -6);
+
+                            }
+                            else if(evt.getKeyCode() == KeyEvent.VK_DOWN) {
+                                if(focus != null && focus.getY() < 400)
+                                    focus.drag(0, 6);
+
+                            }
+                            else if(evt.getKeyCode() == KeyEvent.VK_RIGHT) {
+                                if(focus != null && focus.getX() < 400)
+                                    focus.drag(6, 0);
+                            }
+                            else if(evt.getKeyCode() == KeyEvent.VK_LEFT) {
+                                if(focus != null && focus.getX() > 0)
+                                    focus.drag(-6, 0);
+                            }
+                            else if(evt.getKeyChar() == '+') {
+                                if(focus != null)
+                                    focus.reSize(6);
+                            }
+                            else if(evt.getKeyChar() == '-') {
+                                if(focus != null)
+                                    focus.reSize(-6);
+                            }
+                            repaint();
                         }
-                        else if (evt.getKeyChar() == 'r') {
-                            int x = rand.nextInt(350);
-                            int y = rand.nextInt(350);
-                            int w = rand.nextInt(50);
-                            int h = rand.nextInt(50);
-                            figs.add(new Rect(x,y, w,h, Color.blue, Color.white));
-                        }
-                        else if (evt.getKeyChar() == 'l') {
-                            int x1 = rand.nextInt(350);
-                            int y1 = rand.nextInt(350);
-                            int x2 = rand.nextInt(350);
-                            int y2 = rand.nextInt(350);
-                            figs.add(new Line(x1,y1, x2,y2, Color.red));
-                        }
-                        else if (evt.getKeyChar() == 't') {
-                            figs.add(new Triangle(50,50, 50,50, Color.black, Color.blue));
-                        }
-                        repaint();
                     }
                 }
         );
