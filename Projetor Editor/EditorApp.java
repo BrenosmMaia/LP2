@@ -34,8 +34,8 @@ class EditorFrame extends JFrame {
                         if(getMousePosition() != null) {
                             int x = getMousePosition().x;
                             int y = getMousePosition().y;
-                            int w = rand.nextInt(20,100);
-                            int h = rand.nextInt(20,100);
+                            int w = rand.nextInt(40) + 20;
+                            int h = rand.nextInt(40) + 20;
                             if (evt.getKeyChar() == 'e') {
                                 Ellipse e = new Ellipse(x, y, w, h, Color.black, Color.white);
                                 figs.add(e);
