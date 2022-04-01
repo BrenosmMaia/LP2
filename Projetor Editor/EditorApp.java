@@ -18,6 +18,9 @@ class EditorFrame extends JFrame {
     private ArrayList<Figure> figs = new ArrayList<Figure>();
     private Random rand = new Random();
     private Figure focus = null;
+    private Figure auxFocus = null;
+    private int i = 0;
+    private Point prior;
 
     EditorFrame () {
         this.addWindowListener (
@@ -37,24 +40,36 @@ class EditorFrame extends JFrame {
                             int w = rand.nextInt(40) + 20;
                             int h = rand.nextInt(40) + 20;
                             if (evt.getKeyChar() == 'e') {
-                                Ellipse e = new Ellipse(x, y, w, h, Color.black, Color.white);
+                                Ellipse e = new Ellipse(x, y, w, h, Color.black, Color.black);
                                 figs.add(e);
+                                if(focus != null)
+                                    focus.setCont(Color.black);
                                 focus = e;
+                                focus.setCont(Color.red);
                             }
                             else if(evt.getKeyChar() == 'r') {
-                                Rect R = new Rect(x, y, w, h, Color.blue, Color.white);
+                                Rect R = new Rect(x, y, w, h, Color.blue, Color.black);
                                 figs.add(R);
+                                if(focus != null)
+                                    focus.setCont(Color.black);
                                 focus = R;
+                                focus.setCont(Color.red);
                             }
                             else if(evt.getKeyChar() == 'l') {
-                                Line l = new Line(x, y, w, h, Color.red);
+                                Line l = new Line(x, y, w, h, Color.gray);
                                 figs.add(l);
+                                if(focus != null)
+                                    focus.setCont(Color.gray);
                                 focus = l;
+                                focus.setCont(Color.red);
                             }
                             else if(evt.getKeyChar() == 't') {
-                                Triangle t = new Triangle(x, y, w, h, Color.black, Color.blue);
+                                Triangle t = new Triangle(x, y, w, h, Color.green, Color.black);
                                 figs.add(t);
+                                if(focus != null)
+                                    focus.setCont(Color.black);
                                 focus = t;
+                                focus.setCont(Color.red);
                             }
                             else if(evt.getKeyCode() == KeyEvent.VK_DELETE) {
                                 for(Iterator<Figure> iterator = figs.iterator(); iterator.hasNext();) {
@@ -96,6 +111,46 @@ class EditorFrame extends JFrame {
                     }
                 }
         );
+
+        this.addMouseListener(
+                new MouseAdapter() {
+                    public void mousePressed(MouseEvent evt) {
+                        auxFocus = focus;
+                        if(auxFocus != null) {
+                            auxFocus.setCont(Color.black);
+                            repaint();
+                        }
+                        focus = null;
+                        prior = evt.getPoint();
+                        if(getMousePosition() == null)
+                            return;
+                        for(Figure fig: figs) {
+                            if(fig.isClicked(getMousePosition().x, getMousePosition().y)) {
+                                if(auxFocus != null)
+                                    auxFocus.setCont(Color.black);
+                                focus = fig;
+                                focus.setCont(Color.red);
+                                i = figs.indexOf(fig);
+                                repaint();
+                            }
+                        }
+                    }
+                }
+                );
+
+        this.addMouseMotionListener(
+                new MouseMotionAdapter() {
+                    public void mouseDragged(MouseEvent evt) {
+                        if(focus != null && prior != null) {
+                                Point current = evt.getPoint();
+                                focus.drag((int) (current.getX() - prior.x),
+                                        (int) (current.getY() - prior.y));
+                                prior = current;
+                                repaint();
+                        }
+                    }
+                }
+                );
 
         this.setTitle("Editor Grafico");
         this.setSize(400, 400);
