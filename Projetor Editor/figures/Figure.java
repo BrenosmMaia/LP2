@@ -5,21 +5,23 @@ import java.awt.*;
 public abstract class Figure {
     protected int x, y;
     protected int w, h;
-    protected Color fill;
+    protected Color cont;
 
-    public Figure(int x, int y, int w, int h, Color fill) {
+    public Figure(int x, int y, int w, int h, Color cont) {
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
-        this.fill = fill;
+        this.cont = cont;
     }
 
     public abstract void paint (Graphics g);
 
-    public void drag(int delta_x, int delta_y) {
-        this.x += delta_x;
-        this.y += delta_y;
+    public abstract boolean isClicked(int x, int y);
+
+    public void drag(int deltaX, int deltaY) {
+        this.x += deltaX;
+        this.y += deltaY;
     }
 
     public void reSize(int s) {
@@ -33,5 +35,9 @@ public abstract class Figure {
 
     public int getY() {
         return this.y;
+    }
+
+    public void setCont(Color cont) {
+        this.cont = cont;
     }
 }
