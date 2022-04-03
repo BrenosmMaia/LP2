@@ -21,4 +21,4 @@
 
 ### Mouse:
 
-* Bottão esquerdo - Coloca uma figura em foco e movimenta
+* Botão esquerdo - Coloca uma figura em foco e movimenta
