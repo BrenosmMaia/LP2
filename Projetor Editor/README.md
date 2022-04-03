@@ -1,6 +1,6 @@
-### Manual de Instruções do Editor Gráfico
+## Manual de Instruções do Editor Gráfico
 
-Teclado:
+### Teclado:
 
 * "r" - Cria retângulo na posição do cursor
 
@@ -19,6 +19,6 @@ Teclado:
 * setas - Movimena a figura em foco
 
 
-Mouse:
+### Mouse:
 
 * Bottão esquerdo - Coloca uma figura em foco e movimenta
