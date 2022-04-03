@@ -27,4 +27,13 @@ public class Ellipse extends Figure {
             return this.Ellipse.contains(x, y);
         return false;
     }
+
+    public void changeColor() {
+        if (this.fill == Color.black)
+            this.fill = Color.blue;
+        else if(this.fill == Color.blue)
+            this.fill = Color.green;
+        else
+            this.fill = Color.black;
+    }
 }
