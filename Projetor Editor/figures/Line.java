@@ -22,4 +22,12 @@ public class Line extends Figure {
             return this.Line.contains(x, y);
         return  false;
     }
+    public void changeColor() {
+        if (this.cont== Color.black)
+            this.cont = Color.blue;
+        else if(this.cont == Color.blue)
+            this.cont = Color.green;
+        else
+            this.cont = Color.black;
+    }
 }
