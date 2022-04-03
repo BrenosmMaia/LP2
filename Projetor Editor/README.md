@@ -6,7 +6,7 @@
 
 * "e" - Cria Elipse na posição do cursor
 
-* "t" - Cria Triãngulo na posição do cursor
+* "t" - Cria Triângulo na posição do cursor
 
 * "del" - Deleta figura em foco
 
@@ -16,7 +16,7 @@
 
 * "c" - Muda a cor da figura em foco
 
-* setas - Movimena a figura em foco
+* setas - Movimenta a figura em foco
 
 
 ### Mouse:
