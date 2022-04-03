@@ -26,4 +26,13 @@ public class Rect extends Figure {
             return this.Rect.contains(x, y);
         return false;
     }
+
+    public void changeColor() {
+        if (this.fill == Color.blue)
+            this.fill = Color.black;
+        else if(this.fill == Color.black)
+            this.fill = Color.green;
+        else
+            this.fill = Color.blue;
+    }
 }
