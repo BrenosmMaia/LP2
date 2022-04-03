@@ -16,7 +16,6 @@ class EditorApp {
 
 class EditorFrame extends JFrame {
     private ArrayList<Figure> figs = new ArrayList<Figure>();
-    private Random rand = new Random();
     private Figure focus = null;
     private Figure auxFocus = null;
     private int i = 0;
@@ -38,8 +37,8 @@ class EditorFrame extends JFrame {
                         if(getMousePosition() != null) {
                             int x = getMousePosition().x;
                             int y = getMousePosition().y;
-                            int w = rand.nextInt(40) + 20;
-                            int h = rand.nextInt(40) + 20;
+                            int w = 50;
+                            int h = 40;
                             if (evt.getKeyChar() == 'e') {
                                 Ellipse e = new Ellipse(x, y, w, h, Color.black, Color.black);
                                 figs.add(e);
@@ -57,10 +56,10 @@ class EditorFrame extends JFrame {
                                 focus.setCont(Color.red);
                             }
                             else if(evt.getKeyChar() == 'l') {
-                                Line l = new Line(x, y, w, h, Color.gray);
+                                Line l = new Line(x, y, w, h, Color.black);
                                 figs.add(l);
                                 if(focus != null)
-                                    focus.setCont(Color.gray);
+                                    focus.setCont(Color.black);
                                 focus = l;
                                 focus.setCont(Color.red);
                             }
@@ -106,6 +105,10 @@ class EditorFrame extends JFrame {
                             else if(evt.getKeyChar() == '-') {
                                 if(focus != null)
                                     focus.reSize(-6);
+                            }
+                            else if(evt.getKeyChar() == 'c') {
+                                if(focus != null)
+                                    focus.changeColor();
                             }
                             repaint();
                         }
