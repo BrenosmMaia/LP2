@@ -21,6 +21,7 @@ class EditorFrame extends JFrame {
     private Figure auxFocus = null;
     private int i = 0;
     private Point prior;
+    private boolean newFocus;
 
     EditorFrame () {
         this.addWindowListener (
@@ -126,6 +127,7 @@ class EditorFrame extends JFrame {
                             return;
                         for(Figure fig: figs) {
                             if(fig.isClicked(getMousePosition().x, getMousePosition().y)) {
+                                newFocus = true;
                                 if(auxFocus != null)
                                     auxFocus.setCont(Color.black);
                                 focus = fig;
@@ -134,23 +136,29 @@ class EditorFrame extends JFrame {
                                 repaint();
                             }
                         }
+                        if(newFocus) {
+                            figs.remove(i);
+                            figs.add(focus);
+                            newFocus = false;
+                            repaint();
+                        }
                     }
                 }
-                );
+        );
 
         this.addMouseMotionListener(
                 new MouseMotionAdapter() {
                     public void mouseDragged(MouseEvent evt) {
                         if(focus != null && prior != null) {
-                                Point current = evt.getPoint();
-                                focus.drag((int) (current.getX() - prior.x),
-                                        (int) (current.getY() - prior.y));
-                                prior = current;
-                                repaint();
+                            Point current = evt.getPoint();
+                            focus.drag((int) (current.getX() - prior.x),
+                                    (int) (current.getY() - prior.y));
+                            prior = current;
+                            repaint();
                         }
                     }
                 }
-                );
+        );
 
         this.setTitle("Editor Grafico");
         this.setSize(400, 400);
