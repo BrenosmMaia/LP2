@@ -19,6 +19,8 @@ public abstract class Figure {
 
     public abstract boolean isClicked(int x, int y);
 
+    public abstract void changeColor();
+
     public void drag(int deltaX, int deltaY) {
         this.x += deltaX;
         this.y += deltaY;
