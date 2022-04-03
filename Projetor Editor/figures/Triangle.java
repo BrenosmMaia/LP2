@@ -27,4 +27,13 @@ public class Triangle extends Figure {
             return this.Triangle.contains(x, y);
         return false;
     }
+
+    public void changeColor() {
+        if (this.fill == Color.green)
+            this.fill = Color.black;
+        else if(this.fill == Color.black)
+            this.fill = Color.blue;
+        else
+            this.fill = Color.green;
+    }
 }
