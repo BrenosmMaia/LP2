@@ -8,6 +8,8 @@
 
 * "t" - Cria Triângulo na posição do cursor
 
+* "l" - Cria Linha na posição do cursos
+
 * "del" - Deleta figura em foco
 
 * "+" - Aumenta o tamanho da figura em foco
