@@ -27,8 +27,16 @@ public abstract class Figure {
     }
 
     public void reSize(int s) {
-        this.w += s;
-        this.h +=s;
+        if(s > 0) {
+            this.w += s;
+            this.h +=s;
+        }
+        else {
+            if(this.w > 25 || this.h > 25) {
+                this.w += s;
+                this.h +=s;
+            }
+        }
     }
 
     public int getX() {
