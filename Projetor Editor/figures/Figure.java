@@ -1,8 +1,9 @@
 package figures;
 
 import java.awt.*;
+import ivisible.ivisible;
 
-public abstract class Figure {
+public abstract class Figure implements ivisible{
     protected int x, y;
     protected int w, h;
     protected Color cont;
