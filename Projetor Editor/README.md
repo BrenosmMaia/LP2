@@ -8,7 +8,7 @@
 
 * "t" - Cria Triângulo na posição do cursor
 
-* "l" - Cria Linha na posição do cursos
+* "l" - Cria Linha na posição do cursor
 
 * "del" - Deleta figura em foco
 
