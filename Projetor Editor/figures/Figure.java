@@ -4,11 +4,11 @@ import java.awt.*;
 import ivisible.ivisible;
 
 public abstract class Figure implements ivisible{
-    protected int x, y;
-    protected int w, h;
-    protected Color cont;
+    int x, y;
+    int w, h;
+    Color cont;
 
-    public Figure(int x, int y, int w, int h, Color cont) {
+    Figure(int x, int y, int w, int h, Color cont) {
         this.x = x;
         this.y = y;
         this.w = w;
