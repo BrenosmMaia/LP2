@@ -6,7 +6,7 @@ import ivisible.ivisible;
 public abstract class Figure implements ivisible{
     int x, y;
     int w, h;
-    Color cont;
+    public Color cont;
 
     Figure(int x, int y, int w, int h, Color cont) {
         this.x = x;
@@ -48,7 +48,4 @@ public abstract class Figure implements ivisible{
         return this.y;
     }
 
-    public void setCont(Color cont) {
-        this.cont = cont;
-    }
 }
