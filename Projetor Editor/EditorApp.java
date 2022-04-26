@@ -43,33 +43,33 @@ class EditorFrame extends JFrame {
                                 Ellipse e = new Ellipse(x, y, w, h, Color.black, Color.black);
                                 figs.add(e);
                                 if(focus != null)
-                                    focus.setCont(Color.black);
+                                    focus.cont = Color.black;
                                 focus = e;
-                                focus.setCont(Color.red);
+                                focus.cont = Color.red;
                             }
                             else if(evt.getKeyChar() == 'r') {
                                 Rect R = new Rect(x, y, w, h, Color.blue, Color.black);
                                 figs.add(R);
                                 if(focus != null)
-                                    focus.setCont(Color.black);
+                                    focus.cont = Color.black;
                                 focus = R;
-                                focus.setCont(Color.red);
+                                focus.cont = Color.red;
                             }
                             else if(evt.getKeyChar() == 'l') {
                                 Line l = new Line(x, y, w, h, Color.black);
                                 figs.add(l);
                                 if(focus != null)
-                                    focus.setCont(Color.black);
+                                    focus.cont = Color.black;
                                 focus = l;
-                                focus.setCont(Color.red);
+                                focus.cont = Color.red;
                             }
                             else if(evt.getKeyChar() == 't') {
                                 Triangle t = new Triangle(x, y, w, h, Color.green, Color.black);
                                 figs.add(t);
                                 if(focus != null)
-                                    focus.setCont(Color.black);
+                                    focus.cont = Color.black;
                                 focus = t;
-                                focus.setCont(Color.red);
+                                focus.cont = Color.red;
                             }
                             else if(evt.getKeyCode() == KeyEvent.VK_DELETE) {
                                 for(Iterator<Figure> iterator = figs.iterator(); iterator.hasNext();) {
@@ -121,7 +121,7 @@ class EditorFrame extends JFrame {
                     public void mousePressed(MouseEvent evt) {
                         auxFocus = focus;
                         if(auxFocus != null) {
-                            auxFocus.setCont(Color.black);
+                            auxFocus.cont = Color.black;
                             repaint();
                         }
                         focus = null;
@@ -132,9 +132,9 @@ class EditorFrame extends JFrame {
                             if(fig.isClicked(getMousePosition().x, getMousePosition().y)) {
                                 newFocus = true;
                                 if(auxFocus != null)
-                                    auxFocus.setCont(Color.black);
+                                    auxFocus.cont = Color.black;
                                 focus = fig;
-                                focus.setCont(Color.red);
+                                focus.cont = Color.red;
                                 i = figs.indexOf(fig);
                                 repaint();
                             }
