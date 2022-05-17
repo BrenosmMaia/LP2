@@ -10,10 +10,13 @@ public class Line extends Figure {
         super(x, y, w, h, cont);
     }
 
-    public void paint (Graphics g) {
+    public void paint (Graphics g, boolean focused) {
         Graphics2D g2d = (Graphics2D) g;
         Line = new Line2D.Double(this.x,this.y, this.w, this.h);
-        g2d.setColor(this.cont);
+        if (focused)
+            g2d.setColor(Color.red);
+        else
+            g2d.setColor(this.cont);
         g2d.draw(Line);
     }
 
