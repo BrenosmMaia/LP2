@@ -42,34 +42,22 @@ class EditorFrame extends JFrame {
                             if (evt.getKeyChar() == 'e') {
                                 Ellipse e = new Ellipse(x, y, w, h, Color.black, Color.black);
                                 figs.add(e);
-                                if(focus != null)
-                                    focus.cont = Color.black;
                                 focus = e;
-                                focus.cont = Color.red;
                             }
                             else if(evt.getKeyChar() == 'r') {
                                 Rect R = new Rect(x, y, w, h, Color.blue, Color.black);
                                 figs.add(R);
-                                if(focus != null)
-                                    focus.cont = Color.black;
                                 focus = R;
-                                focus.cont = Color.red;
                             }
                             else if(evt.getKeyChar() == 'l') {
                                 Line l = new Line(x, y, w, h, Color.black);
                                 figs.add(l);
-                                if(focus != null)
-                                    focus.cont = Color.black;
                                 focus = l;
-                                focus.cont = Color.red;
                             }
                             else if(evt.getKeyChar() == 't') {
                                 Triangle t = new Triangle(x, y, w, h, Color.green, Color.black);
                                 figs.add(t);
-                                if(focus != null)
-                                    focus.cont = Color.black;
                                 focus = t;
-                                focus.cont = Color.red;
                             }
                             else if(evt.getKeyCode() == KeyEvent.VK_DELETE) {
                                 for(Iterator<Figure> iterator = figs.iterator(); iterator.hasNext();) {
@@ -167,10 +155,15 @@ class EditorFrame extends JFrame {
         this.setSize(400, 400);
     }
 
-    public void paint (Graphics g) {
+    public void paint(Graphics g) {
         super.paint(g);
-        for(Figure fig: this.figs) {
-            fig.paint(g);
+        for(Figure fig: this.figs){
+            if(fig == focus) {
+                fig.paint(g, true);
+            }
+            else {
+                fig.paint(g, false);
+            }
         }
     }
 }
