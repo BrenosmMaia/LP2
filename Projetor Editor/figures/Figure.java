@@ -16,7 +16,7 @@ public abstract class Figure implements ivisible{
         this.cont = cont;
     }
 
-    public abstract void paint (Graphics g);
+    public abstract void paint (Graphics g, boolean focused);
 
     public abstract boolean isClicked(int x, int y);
 
