@@ -13,12 +13,15 @@ public class Ellipse extends Figure {
         this.fill = fill;
     }
 
-    public void paint (Graphics g) {
+    public void paint (Graphics g, boolean focused) {
         Graphics2D g2d = (Graphics2D) g;
         this.Ellipse = new Ellipse2D.Double(this.x, this.y, this.w, this.h);
         g2d.setColor(this.fill);
         g2d.fill(this.Ellipse);
-        g2d.setColor(this.cont);
+        if (focused)
+            g2d.setColor(Color.red);
+        else
+            g2d.setColor(this.cont);
         g2d.draw(this.Ellipse);
     }
 
