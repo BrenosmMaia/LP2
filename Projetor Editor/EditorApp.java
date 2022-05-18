@@ -114,6 +114,17 @@ class EditorFrame extends JFrame {
 
         this.addMouseListener(
                 new MouseAdapter() {
+                    public void mouseClicked(MouseEvent evt) {
+                        butFocus = null;
+                        if(getMousePosition() == null)
+                            return;
+                        for(Button but: buts){
+                            if(but.isClicked(getMousePosition().x, getMousePosition().y)) {
+                                butFocus = but;
+                            }
+                        }
+                        repaint();
+                    }
                     public void mousePressed(MouseEvent evt) {
                         auxFocus = focus;
                         if(auxFocus != null) {
@@ -124,6 +135,35 @@ class EditorFrame extends JFrame {
                         prior = evt.getPoint();
                         if(getMousePosition() == null)
                             return;
+                        if(SwingUtilities.isLeftMouseButton(evt)){
+                            if(getMousePosition()!= null && butFocus!=null) {
+                                int x = getMousePosition().x;
+                                int y = getMousePosition().y;
+                                int w = 50;
+                                int h = 40;
+                                if(butFocus.idx == 0) {
+                                    Rect r = new Rect(x, y, w, h, Color.blue, Color.black);
+                                    figs.add(r);
+                                    focus = r;
+                                }
+                                else if(butFocus.idx == 1) {
+                                    Ellipse e = new Ellipse(x, y, w, h, Color.black, Color.black);
+                                    figs.add(e);
+                                    focus = e;
+                                }
+                                else if(butFocus.idx == 2) {
+                                    Triangle t = new Triangle(x, y, w, h, Color.green, Color.black);
+                                    figs.add(t);
+                                    focus = t;
+                                }
+                                else if(butFocus.idx == 3) {
+                                    Line l = new Line(x, y, w, h, Color.black);
+                                    figs.add(l);
+                                    focus = l;
+                                }
+                            }
+                            butFocus = null;
+                        }
                         for(Figure fig: figs) {
                             if(fig.isClicked(getMousePosition().x, getMousePosition().y)) {
                                 newFocus = true;
