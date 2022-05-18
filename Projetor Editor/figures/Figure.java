@@ -4,8 +4,8 @@ import java.awt.*;
 import ivisible.ivisible;
 
 public abstract class Figure implements ivisible{
-    int x, y;
-    int w, h;
+    public int x, y;
+    public int w, h;
     public Color cont;
 
     Figure(int x, int y, int w, int h, Color cont) {
