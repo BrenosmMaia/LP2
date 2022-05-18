@@ -16,13 +16,21 @@ class EditorApp {
 
 class EditorFrame extends JFrame {
     private ArrayList<Figure> figs = new ArrayList<Figure>();
+    private ArrayList<Button> buts = new ArrayList<Button>();
     private Figure focus = null;
+    private Button butFocus = null;
     private Figure auxFocus = null;
     private int i = 0;
     private Point prior;
     private boolean newFocus;
 
     EditorFrame () {
+
+        buts.add(new Button(0, new Rect(0,0,0,0,Color.black,Color.white)));
+        buts.add(new Button(1, new Ellipse(0,0,0,0,Color.black,Color.white)));
+        buts.add(new Button(2, new Triangle(0,0,0,0,Color.black,Color.white)));
+        buts.add(new Button(3, new Line(0,0,0,0,Color.black)));
+
         this.addWindowListener (
                 new WindowAdapter() {
                     public void windowClosing (WindowEvent e) {
@@ -163,6 +171,14 @@ class EditorFrame extends JFrame {
             }
             else {
                 fig.paint(g, false);
+            }
+        }
+        for(Button but: this.buts){
+            if(but == butFocus) {
+                but.paint(g, true);
+            }
+            else {
+                but.paint(g, false);
             }
         }
     }
