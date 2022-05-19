@@ -1,9 +1,11 @@
 package figures;
 
 import java.awt.*;
+import java.io.Serializable;
+
 import ivisible.ivisible;
 
-public abstract class Figure implements ivisible{
+public abstract class Figure implements ivisible, Serializable {
     public int x, y;
     public int w, h;
     public Color cont;
