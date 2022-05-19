@@ -2,7 +2,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.io.*;
 
 
 import figures.*;
@@ -25,6 +27,33 @@ class EditorFrame extends JFrame {
     private boolean newFocus;
 
     EditorFrame () {
+        try {
+            FileInputStream f = new FileInputStream("proj.bin");
+            ObjectInputStream o = new ObjectInputStream(f);
+            this.figs = (ArrayList<Figure>) o.readObject();
+            o.close();
+
+        }
+        catch(Exception x) {
+            System.out.println("ERRO!");
+        }
+
+        this.addWindowListener (
+                new WindowAdapter() {
+                    public void windowClosing (WindowEvent e) {
+                        try {
+                            FileOutputStream f = new FileOutputStream("proj.bin");
+                            ObjectOutputStream o = new ObjectOutputStream(f);
+                            o.writeObject(figs);
+                            o.flush();
+                            o.close();
+                        }
+                        catch(Exception x) {
+                        }
+                        System.exit(0);
+                    }
+                }
+        );
 
         buts.add(new Button(0, new Rect(0,0,0,0,Color.black,Color.white)));
         buts.add(new Button(1, new Ellipse(0,0,0,0,Color.black,Color.white)));
@@ -165,6 +194,7 @@ class EditorFrame extends JFrame {
                             butFocus = null;
                         }
                         for(Figure fig: figs) {
+                            auxFocus = focus;
                             if(fig.isClicked(getMousePosition().x, getMousePosition().y)) {
                                 newFocus = true;
                                 if(auxFocus != null)
@@ -172,8 +202,8 @@ class EditorFrame extends JFrame {
                                 focus = fig;
                                 focus.cont = Color.red;
                                 i = figs.indexOf(fig);
-                                repaint();
                             }
+                            repaint();
                         }
                         if(newFocus) {
                             figs.remove(i);
