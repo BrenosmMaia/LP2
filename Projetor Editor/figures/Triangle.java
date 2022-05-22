@@ -3,12 +3,11 @@ package figures;
 import java.awt.*;
 
 public class Triangle extends Figure {
-    private Color fill;
     private Polygon Triangle;
+    private Polygon foco;
 
     public Triangle(int x, int y, int w, int h, Color fill, Color cont) {
-        super(x, y, w, h, cont);
-        this.fill = fill;
+        super(x, y, w, h, fill, cont);
     }
 
     public void paint(Graphics g, boolean focused) {
@@ -18,11 +17,16 @@ public class Triangle extends Figure {
         this.Triangle = new Polygon( xValues, yValues, 3);
         g2d.setColor(this.fill);
         g2d.fill(this.Triangle);
-        if (focused)
-            g2d.setColor(Color.red);
-        else
-            g2d.setColor(this.cont);
+        g2d.setColor(this.cont);
         g2d.draw(this.Triangle);
+        if (focused) {
+            Graphics2D focusline = (Graphics2D) g;
+            int[] xFocus = { this.x-5, this.x+(this.w/2), this.x+this.w+5};
+            int[] yFocus = { this.y+this.h+3, this.y-6, this.y + this.h+3};
+            this.foco = new Polygon( xFocus, yFocus, 3);
+            focusline.setColor(Color.red);
+            focusline.draw(this.foco);
+        }
     }
 
     public boolean isClicked(int x, int y) {
@@ -34,9 +38,22 @@ public class Triangle extends Figure {
     public void changeColor() {
         if (this.fill == Color.green)
             this.fill = Color.black;
-        else if(this.fill == Color.black)
+        else if (this.fill == Color.black)
             this.fill = Color.blue;
+        else if (this.fill == Color.blue)
+            this.fill = Color.cyan;
         else
             this.fill = Color.green;
+    }
+
+    public void changeCont() {
+        if (this.cont == Color.black)
+            this.cont = Color.blue;
+        else if (this.cont == Color.blue)
+            this.cont = Color.green;
+        else if (this.cont == Color.green)
+            this.cont = Color.cyan;
+        else
+            this.cont = Color.black;
     }
 }
