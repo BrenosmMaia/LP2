@@ -21,10 +21,13 @@ class EditorFrame extends JFrame {
     private ArrayList<Button> buts = new ArrayList<Button>();
     private Figure focus = null;
     private Button butFocus = null;
-    private Figure auxFocus = null;
     private int i = 0;
     private Point prior;
     private boolean newFocus;
+    private int w = 50;
+    private int h = 40;
+    private int l = 20;
+    private int p = 30;
 
     EditorFrame () {
         try {
@@ -58,7 +61,8 @@ class EditorFrame extends JFrame {
         buts.add(new Button(0, new Rect(0,0,0,0,Color.black,Color.white)));
         buts.add(new Button(1, new Ellipse(0,0,0,0,Color.black,Color.white)));
         buts.add(new Button(2, new Triangle(0,0,0,0,Color.black,Color.white)));
-        buts.add(new Button(3, new Line(0,0,0,0,Color.black)));
+        buts.add(new Button(3, new Seta(0,0,0,0, 5, 10, Color.black, Color.white)));
+        buts.add(new Button(4, new Rect(0,0,0,0,Color.red,Color.white)));
 
         this.addWindowListener (
                 new WindowAdapter() {
@@ -69,13 +73,12 @@ class EditorFrame extends JFrame {
         );
 
         this.addKeyListener (
-                new KeyAdapter(){
-                    public void keyPressed (KeyEvent evt){
+                new KeyAdapter() {;
+                    public void keyPressed (KeyEvent evt) {
                         if(getMousePosition() != null) {
                             int x = getMousePosition().x;
                             int y = getMousePosition().y;
-                            int w = 50;
-                            int h = 40;
+
                             if (evt.getKeyChar() == 'e') {
                                 Ellipse e = new Ellipse(x, y, w, h, Color.black, Color.black);
                                 figs.add(e);
@@ -86,10 +89,10 @@ class EditorFrame extends JFrame {
                                 figs.add(R);
                                 focus = R;
                             }
-                            else if(evt.getKeyChar() == 'l') {
-                                Line l = new Line(x, y, w, h, Color.black);
-                                figs.add(l);
-                                focus = l;
+                            else if(evt.getKeyChar() == 's') {
+                                Seta s = new Seta(x, y, w, h, l, p, Color.cyan, Color.black);
+                                figs.add(s);
+                                focus = s;
                             }
                             else if(evt.getKeyChar() == 't') {
                                 Triangle t = new Triangle(x, y, w, h, Color.green, Color.black);
@@ -104,6 +107,14 @@ class EditorFrame extends JFrame {
                                         focus = null;
                                     }
                                 }
+                            }
+                            else if(evt.getKeyChar() == 'f' && figs.size()!=0) {
+                                if (i >= figs.size()) {
+                                    i = 0;
+                                }
+                                focus = figs.get(i);
+                                i++;
+                                repaint();
                             }
                             else if(evt.getKeyCode() == KeyEvent.VK_UP) {
                                 if(focus != null && focus.getY() > 0)
@@ -135,6 +146,10 @@ class EditorFrame extends JFrame {
                                 if(focus != null)
                                     focus.changeColor();
                             }
+                            else if(evt.getKeyChar() == 'v') {
+                                if(focus != null)
+                                    focus.changeCont();
+                            }
                             repaint();
                         }
                     }
@@ -155,21 +170,14 @@ class EditorFrame extends JFrame {
                         repaint();
                     }
                     public void mousePressed(MouseEvent evt) {
-                        auxFocus = focus;
-                        if(auxFocus != null) {
-                            auxFocus.cont = Color.black;
-                            repaint();
-                        }
                         focus = null;
                         prior = evt.getPoint();
+                        int x = getMousePosition().x;
+                        int y = getMousePosition().y;
                         if(getMousePosition() == null)
                             return;
                         if(SwingUtilities.isLeftMouseButton(evt)){
                             if(getMousePosition()!= null && butFocus!=null) {
-                                int x = getMousePosition().x;
-                                int y = getMousePosition().y;
-                                int w = 50;
-                                int h = 40;
                                 if(butFocus.idx == 0) {
                                     Rect r = new Rect(x, y, w, h, Color.blue, Color.black);
                                     figs.add(r);
@@ -186,24 +194,30 @@ class EditorFrame extends JFrame {
                                     focus = t;
                                 }
                                 else if(butFocus.idx == 3) {
-                                    Line l = new Line(x, y, w, h, Color.black);
-                                    figs.add(l);
-                                    focus = l;
+                                    Seta s = new Seta(x, y, w, h, l , p, Color.cyan, Color.black);
+                                    figs.add(s);
+                                    focus = s;
+                                }
+                                else if(butFocus.idx == 4) {
+                                    for(Iterator<Figure> iterator = figs.iterator(); iterator.hasNext();) {
+                                        Figure figure = iterator.next();
+                                        iterator.remove();
+                                    }
+                                    focus = null;
+                                    repaint();
                                 }
                             }
                             butFocus = null;
                         }
+                        else if (SwingUtilities.isRightMouseButton(evt))
+                            butFocus = null;
+                            repaint();
                         for(Figure fig: figs) {
-                            auxFocus = focus;
-                            if(fig.isClicked(getMousePosition().x, getMousePosition().y)) {
+                            if(fig.isClicked(x, y)) {
                                 newFocus = true;
-                                if(auxFocus != null)
-                                    auxFocus.cont = Color.black;
                                 focus = fig;
-                                focus.cont = Color.red;
                                 i = figs.indexOf(fig);
                             }
-                            repaint();
                         }
                         if(newFocus) {
                             figs.remove(i);
