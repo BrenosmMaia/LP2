@@ -9,15 +9,15 @@ public class Button implements ivisible {
     private static int figSize = 20;
 
     protected int idx;
-    private Figure fig;
+    protected Figure fig;
 
     public Button (int idx, Figure fig) {
         this.idx = idx;
         this.fig = fig;
         this.fig.x = x+5;
-        this.fig.y =(idx==3 ? y+idx*size+25:y+idx*size+5);
-        this.fig.w = (idx==3 ? figSize+20:figSize);
-        this.fig.h = (idx==3 ? figSize+115:figSize);
+        this.fig.y = (idx==3 ? y+idx*size+10:y+idx*size+5);
+        this.fig.w = (idx==3 ? figSize-10:figSize);
+        this.fig.h = (idx==3 ? figSize-10:figSize);
     }
 
     public boolean isClicked(int mouseX, int mouseY) {
