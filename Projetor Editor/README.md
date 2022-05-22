@@ -30,7 +30,7 @@
 * Botão esquerdo - Coloca uma figura em foco e movimenta
 
 ### Botões:
-Utilize o botão esquedo do mouse para selecionar um botão, e novamente o botão esquerdo para executar a ação, ou o botão direito para remover a seleção do botão.
+Utilize o botão esquerdo do mouse para selecionar um botão, e novamente o botão esquerdo para executar a ação, ou o botão direito para remover a seleção do botão.
 
 * Os botões pretos criam a figura selecionada.
 * O botão vermelho deleta **todas** as figuras.
