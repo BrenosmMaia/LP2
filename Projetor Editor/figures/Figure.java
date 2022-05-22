@@ -9,13 +9,15 @@ public abstract class Figure implements ivisible, Serializable {
     public int x, y;
     public int w, h;
     public Color cont;
+    public Color fill;
 
-    Figure(int x, int y, int w, int h, Color cont) {
+    Figure(int x, int y, int w, int h, Color fill, Color cont) {
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
         this.cont = cont;
+        this.fill = fill;
     }
 
     public abstract void paint (Graphics g, boolean focused);
@@ -23,6 +25,8 @@ public abstract class Figure implements ivisible, Serializable {
     public abstract boolean isClicked(int x, int y);
 
     public abstract void changeColor();
+
+    public abstract void changeCont();
 
     public void drag(int deltaX, int deltaY) {
         this.x += deltaX;
