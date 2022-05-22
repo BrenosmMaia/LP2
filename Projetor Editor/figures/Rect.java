@@ -4,12 +4,11 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class Rect extends Figure {
-    private Color fill;
     private Rectangle2D Rect;
+    private Rectangle2D foco;
 
     public Rect (int x, int y, int w, int h, Color fill, Color cont) {
-        super(x, y, w, h, cont);
-        this.fill = fill;
+        super(x, y, w, h, fill, cont);
     }
 
     public void paint (Graphics g, boolean focused) {
@@ -17,11 +16,14 @@ public class Rect extends Figure {
         this.Rect = new Rectangle2D.Double(this.x, this.y, this.w, this.h);
         g2d.setColor(this.fill);
         g2d.fill(this.Rect);
-        if (focused)
-            g2d.setColor(Color.red);
-        else
-            g2d.setColor(this.cont);
+        g2d.setColor(this.cont);
         g2d.draw(this.Rect);
+        if (focused) {
+            Graphics2D focusline = (Graphics2D) g;
+            this.foco = new Rectangle2D.Double(this.x-3,this.y-3,this.w+6,this.h+6);
+            focusline.setColor(Color.red);
+            focusline.draw(this.foco);
+        }
     }
 
     public boolean isClicked(int x, int y) {
@@ -35,7 +37,20 @@ public class Rect extends Figure {
             this.fill = Color.black;
         else if(this.fill == Color.black)
             this.fill = Color.green;
+        else if (this.fill == Color.green)
+            this.fill = Color.cyan;
         else
             this.fill = Color.blue;
+    }
+
+    public void changeCont() {
+        if (this.cont == Color.black)
+            this.cont = Color.blue;
+        else if (this.cont == Color.blue)
+            this.cont = Color.green;
+        else if (this.cont == Color.green)
+            this.cont = Color.cyan;
+        else
+            this.cont = Color.black;
     }
 }
