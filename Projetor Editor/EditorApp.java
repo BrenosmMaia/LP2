@@ -20,6 +20,7 @@ class EditorFrame extends JFrame {
     private ArrayList<Figure> figs = new ArrayList<Figure>();
     private ArrayList<Button> buts = new ArrayList<Button>();
     private Figure focus = null;
+    private Figure auxFocus = null;
     private Button butFocus = null;
     private int i = 0;
     private Point prior;
@@ -28,6 +29,10 @@ class EditorFrame extends JFrame {
     private int h = 40;
     private int l = 20;
     private int p = 30;
+    private int x ;
+    private int y ;
+    private Rect reSize = new Rect (0, 0, 10, 10, Color.white, Color.black);
+    private boolean reSizeFocus = false;
 
     EditorFrame () {
         try {
@@ -76,8 +81,8 @@ class EditorFrame extends JFrame {
                 new KeyAdapter() {;
                     public void keyPressed (KeyEvent evt) {
                         if(getMousePosition() != null) {
-                            int x = getMousePosition().x;
-                            int y = getMousePosition().y;
+                            x = getMousePosition().x;
+                            y = getMousePosition().y;
 
                             if (evt.getKeyChar() == 'e') {
                                 Ellipse e = new Ellipse(x, y, w, h, Color.black, Color.black);
@@ -170,10 +175,11 @@ class EditorFrame extends JFrame {
                         repaint();
                     }
                     public void mousePressed(MouseEvent evt) {
+                        auxFocus = focus;
                         focus = null;
                         prior = evt.getPoint();
-                        int x = getMousePosition().x;
-                        int y = getMousePosition().y;
+                        x = getMousePosition().x;
+                        y = getMousePosition().y;
                         if(getMousePosition() == null)
                             return;
                         if(SwingUtilities.isLeftMouseButton(evt)){
@@ -213,10 +219,15 @@ class EditorFrame extends JFrame {
                             butFocus = null;
                             repaint();
                         for(Figure fig: figs) {
+                            reSizeFocus = false;
                             if(fig.isClicked(x, y)) {
                                 newFocus = true;
                                 focus = fig;
                                 i = figs.indexOf(fig);
+                            }
+                            else if(reSize.isClicked(x, y)) {
+                                reSizeFocus = true;
+                                focus = auxFocus;
                             }
                         }
                         if(newFocus) {
@@ -232,10 +243,17 @@ class EditorFrame extends JFrame {
         this.addMouseMotionListener(
                 new MouseMotionAdapter() {
                     public void mouseDragged(MouseEvent evt) {
-                        if(focus != null && prior != null) {
-                            Point current = evt.getPoint();
-                            focus.drag((int) (current.getX() - prior.x),
-                                    (int) (current.getY() - prior.y));
+                        Point current = evt.getPoint();
+                        if(reSizeFocus) {
+                                focus.reDimension(current.x - x,
+                                        current.y - y);
+                                x = current.x;
+                                y = current.y;
+                                repaint();
+                        }
+                        else if(focus != null && prior != null) {
+                            focus.drag(current.x - prior.x,
+                                    current.y - prior.y);
                             prior = current;
                             repaint();
                         }
@@ -256,6 +274,11 @@ class EditorFrame extends JFrame {
             else {
                 fig.paint(g, false);
             }
+        }
+        if(focus != null) {
+            reSize.x = (focus.x - 1) + (focus.w + 18) - 6;
+            reSize.y = (focus.y - 3) + (focus.h + 15) - 6;
+            reSize.paint(g, false);
         }
         for(Button but: this.buts){
             if(but == butFocus) {
