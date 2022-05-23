@@ -46,6 +46,19 @@ public abstract class Figure implements ivisible, Serializable {
         }
     }
 
+    public void reDimension(int dw, int dh) {
+        if(dw>0 && dh > 0) {
+            this.w += dw;
+            this.h += dh;
+        }
+        else {
+            if(this.w > 20 || this.h > 20) {
+                this.w += dw;
+                this.h += dh;
+            }
+        }
+    }
+
     public int getX() {
         return this.x;
     }
