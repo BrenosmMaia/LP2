@@ -27,7 +27,7 @@
 
 ### Mouse:
 
-* Botão esquerdo - Coloca uma figura em foco e movimenta
+* Botão esquerdo - Clique em uma figura para coloca-la em foco e a movimente. Ou, clique no retângulo branco e o movimente, para redimensionar a figura.
 
 ### Botões:
 Utilize o botão esquerdo do mouse para selecionar um botão, e novamente o botão esquerdo para executar a ação, em qualquer ponto da tela, ou o botão direito para remover a seleção do botão.
