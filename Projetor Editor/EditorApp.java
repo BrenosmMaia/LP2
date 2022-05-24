@@ -32,7 +32,16 @@ class EditorFrame extends JFrame {
     private int x ;
     private int y ;
     private Rect reSize = new Rect (0, 0, 10, 10, Color.white, Color.black);
+    private Rect reDimenR = new Rect (0, 0, 10, 10, Color.white, Color.black);
+    private Rect reDimenL = new Rect (0, 0, 10, 10, Color.white, Color.black);
+    private Rect reDimenT = new Rect (0, 0, 10, 10, Color.white, Color.black);
+    private Rect reDimenD = new Rect (0, 0, 10, 10, Color.white, Color.black);
     private boolean reSizeFocus = false;
+    private boolean reDimenRFocus= false;
+    private boolean reDimenLFocus= false;
+    private boolean reDimenTFocus= false;
+    private boolean reDimenDFocus= false;
+
 
     EditorFrame () {
         try {
@@ -217,9 +226,13 @@ class EditorFrame extends JFrame {
                         }
                         else if (SwingUtilities.isRightMouseButton(evt))
                             butFocus = null;
-                            repaint();
+                        repaint();
                         for(Figure fig: figs) {
                             reSizeFocus = false;
+                            reDimenRFocus = false;
+                            reDimenLFocus = false;
+                            reDimenDFocus = false;
+                            reDimenTFocus = false;
                             if(fig.isClicked(x, y)) {
                                 newFocus = true;
                                 focus = fig;
@@ -227,6 +240,22 @@ class EditorFrame extends JFrame {
                             }
                             else if(reSize.isClicked(x, y)) {
                                 reSizeFocus = true;
+                                focus = auxFocus;
+                            }
+                            else if(reDimenR.isClicked(x, y)) {
+                                reDimenRFocus = true;
+                                focus = auxFocus;
+                            }
+                            else if(reDimenL.isClicked(x, y)) {
+                                reDimenLFocus = true;
+                                focus = auxFocus;
+                            }
+                            else if(reDimenD.isClicked(x, y)) {
+                                reDimenDFocus = true;
+                                focus = auxFocus;
+                            }
+                            else if(reDimenT.isClicked(x, y)) {
+                                reDimenTFocus = true;
                                 focus = auxFocus;
                             }
                         }
@@ -245,12 +274,68 @@ class EditorFrame extends JFrame {
                     public void mouseDragged(MouseEvent evt) {
                         Point current = evt.getPoint();
                         if(reSizeFocus) {
-                                focus.reDimension(current.x - x,
-                                        current.y - y);
-                                x = current.x;
-                                y = current.y;
-                                repaint();
+                            focus.reDimension(current.x - x,
+                                    current.y - y);
+                            x = current.x;
+                            y = current.y;
+                            repaint();
                         }
+
+                        else if (reDimenRFocus) {
+                            if(current.x - x > 0) {
+                                focus.w += current.x - x;
+                                x = current.x;
+                            }
+                            else {
+                                if((focus.w >= 15) && (evt.getX() > focus.x)) {
+                                    focus.w += current.x - x;
+                                    x = current.x;
+                                }
+                            }
+                            repaint();
+                        }
+
+                        else if (reDimenLFocus) {
+                            if(current.x - x < 0) {
+                                focus.x += current.x - x;
+                                focus.w -= current.x - x;
+                            }
+                            else {
+                                if((focus.w >= 15)) {
+                                    focus.x += current.x - x;
+                                    focus.w -= current.x - x;
+                                }
+                            }
+                            x = current.x;
+                            repaint();
+                        }
+
+                        else if(reDimenDFocus) {
+                            if(current.y - y < 0) {
+                                if(focus.h >= 15)
+                                    focus.h +=  current.y - y;
+                            }
+                            else
+                                focus.h +=  current.y - y;
+                            y = current.y;
+                            repaint();
+                        }
+
+                        else if(reDimenTFocus) {
+                            if(current.y - y > 0) {
+                                if(focus.h >= 15) {
+                                    focus.y += current.y - y;
+                                    focus.h -= current.y - y;
+                                }
+                            }
+                            else {
+                                focus.y += current.y - y;
+                                focus.h -=  current.y - y;
+                            }
+                            y = current.y;
+                            repaint();
+                        }
+
                         else if(focus != null && prior != null) {
                             focus.drag(current.x - prior.x,
                                     current.y - prior.y);
@@ -278,7 +363,24 @@ class EditorFrame extends JFrame {
         if(focus != null) {
             reSize.x = (focus.x - 1) + (focus.w + 18) - 6;
             reSize.y = (focus.y - 3) + (focus.h + 15) - 6;
+
+            reDimenR.x = focus.x + focus.w + 25;
+            reDimenR.y = focus.y + (focus.h/2) - 5;
+
+            reDimenL.x = focus.x - 10;
+            reDimenL.y = focus.y + (focus.h/2) - 5;
+
+            reDimenT.x = focus.x + (focus.w/2) - 5 ;
+            reDimenT.y = focus.y - 12;
+
+            reDimenD.x = focus.x + (focus.w/2) - 5 ;
+            reDimenD.y = focus.y + focus.h + 5;
+
             reSize.paint(g, false);
+            reDimenR.paint(g, false);
+            reDimenL.paint(g, false);
+            reDimenT.paint(g, false);
+            reDimenD.paint(g, false);
         }
         for(Button but: this.buts){
             if(but == butFocus) {
